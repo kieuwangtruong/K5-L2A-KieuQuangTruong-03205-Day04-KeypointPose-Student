@@ -48,14 +48,13 @@ Số skeleton dưới đây được đếm trong hai file task hiện có. Đâ
 
 ## 3. Bảng ca khó (CP1, CP2)
 
-Các dòng đầu là những điểm cần kiểm tra/sửa theo kết quả tự kiểm; không phải ghi nhận rằng lỗi đã được sửa.
+ZIP người mới nhất đã sửa được lỗi `left_elbow` ở `000000179201.jpg`; lỗi này không còn bị checker báo. Các dòng dưới đây là những vấn đề còn lại trong bản mới.
 
 | Ảnh | Người / mặt | Điểm | Cờ hiện tại | Phân vân / vấn đề | Hướng xử lý |
 |---|---|---|---:|---|---|
-| `000000179201.jpg` | người #1 | `left_elbow` | 2 | Tọa độ xuất `648, 321` nằm ngoài ảnh | Kiểm tra trên CVAT; nếu khớp ngoài ảnh, đặt `outside` |
 | `000000189365.jpg` | người #1 | `right_hip` | 1 | Tọa độ xuất `-13, 373` nằm ngoài ảnh | Kiểm tra trên CVAT; nếu khớp ngoài ảnh, đặt `outside` |
 | `000000189365.jpg` | người #2 | `left_eye`, `right_eye` | 1 | Cả hai điểm có y = -8, nằm ngoài ảnh | Kiểm tra trên CVAT; nếu khớp ngoài ảnh, đặt `outside` |
-| `000000572411.jpg` | người #1, #3–#7 | — | — | Sáu skeleton bị cảnh báo có độ cao dưới 60 px (34, 0, 3, 20, 20, 21 px) | Kiểm tra từng người; bỏ skeleton người dưới 60 px theo guideline |
+| `000000572411.jpg` | người #1–#6 | — | — | Sáu skeleton bị cảnh báo có độ cao dưới 60 px (0, 3, 20, 20, 34, 21 px) | Kiểm tra từng người; bỏ skeleton người dưới 60 px theo guideline |
 | `face_146049.jpg` | mặt | — | — | Đã có đúng một skeleton mặt trong file mới | Đạt số lượng theo script; rà vị trí điểm bằng mắt |
 
 ### Ảnh minh họa ca khó
@@ -99,7 +98,7 @@ Hai file task gốc của job 10 và job 11 đã được cập nhật. Kiểm t
 
 | File đã kiểm | Người / mặt kiểm | Số phần tử `keypoints` | Kết quả kiểm cờ và số điểm |
 |---|---|---:|---|
-| `job_10_annotations_2026_11_12_12_10_51_coco keypoints 1.0.zip` | 26 skeleton người trong 12 ảnh | 51 mỗi annotation | Có 4 điểm `v > 0` nằm ngoài ảnh; cần sửa trên CVAT |
+| `job_10_annotations_2026_11_12_12_10_51_coco keypoints 1.0.zip` | 26 skeleton người trong 12 ảnh | 51 mỗi annotation | Có 3 điểm `v > 0` nằm ngoài ảnh; cần sửa trên CVAT |
 | `job_11_annotations_2026_11_12_12_12_20_coco keypoints 1.0.zip` | 8 skeleton mặt trong 8 ảnh | 39 mỗi annotation | Mỗi ảnh có đúng một skeleton |
 
 - CVAT xuất `occluded` thành `v = 1`; `outside` thành `v = 0`.
@@ -113,16 +112,16 @@ Kết quả `python src/check_submission.py --persons "job_10_annotations_2026_1
 - File person: job_10_annotations_2026_11_12_12_10_51_coco keypoints 1.0.zip
   Số ảnh: 12 · số skeleton `person`: 26 · mỗi annotation 51 số
   Skeleton theo ảnh: 000000027565=1, 000000043500=2, 000000103970=1, 000000179201=2, 000000189365=2, 000000194027=1, 000000205650=1, 000000294379=1, 000000381889=3, 000000391222=2, 000000516902=2, 000000572411=8
-  Cờ v: v=2 269 (61%) · v=1 61 (14%) · v=0 112 (25%)
-  num_keypoints trung bình: 12.7
+  Cờ v: v=2 267 (60%) · v=1 58 (13%) · v=0 117 (26%)
+  num_keypoints trung bình: 12.5
 - File face: job_11_annotations_2026_11_12_12_12_20_coco keypoints 1.0.zip
   Số ảnh: 8 · số skeleton `face`: 8 · mỗi annotation 39 số
   Skeleton theo ảnh: face_146049=1, face_178208=1, face_232598=1, face_356144=1, face_362568=1, face_425647=1, face_483667=1, face_53580=1
   Cờ v: v=2 94 (90%) · v=1 10 (10%) · v=0 0 (0%)
   num_keypoints trung bình: 13.0
-- Ghi chú: 112 điểm v = 0 vẫn mang tọa độ cũ (CVAT 2.x xuất như vậy; chuẩn COCO ghi 0, 0). Không phải lỗi: điểm v = 0 bị bỏ qua khi huấn luyện và khi chấm.
-- Số [LỖI]: 4 · số [CẢNH BÁO]: 6
-Kết quả: CHƯA ĐẠT (4 lỗi). Sửa trên CVAT rồi xuất lại.
+- Ghi chú: 117 điểm v = 0 vẫn mang tọa độ cũ (CVAT 2.x xuất như vậy; chuẩn COCO ghi 0, 0). Không phải lỗi: điểm v = 0 bị bỏ qua khi huấn luyện và khi chấm.
+- Số [LỖI]: 3 · số [CẢNH BÁO]: 6
+Kết quả: CHƯA ĐẠT (3 lỗi). Sửa trên CVAT rồi xuất lại.
 ```
 
 ## 6. Ảnh chụp màn hình
@@ -151,11 +150,11 @@ Nguồn ảnh: COCO val2017 / Wikimedia Commons.
 
 1. Qua đối chiếu file hiện tại, lỗi cần chú ý nhất là điểm có `v > 0` nhưng tọa độ nằm ngoài ảnh. Trước khi lưu cần rà lại tọa độ và cờ của từng điểm; nếu khớp không quan sát được hoặc nằm ngoài ảnh thì đặt `outside`, không để tọa độ ngoài biên thành điểm nhìn thấy.
 2. Quy tắc đề xuất thêm: trước khi export, bật overlay skeleton và kiểm tra riêng các điểm sát biên ảnh; với ảnh nhóm `small`, xác nhận từng người đạt ngưỡng chiều cao tối thiểu 60 px để tránh gán nhầm người quá nhỏ.
-3. Ví dụ cần sửa: `left_elbow` của người #1 trong `000000179201.jpg` có `v = 2` nhưng tọa độ x = 648 nằm ngoài ảnh. Nếu giữ như vậy, mô hình học tọa độ khớp sai như một nhãn dương; đặt `outside` sẽ loại điểm đó khỏi loss. Điểm này vẫn cần sửa trên CVAT.
+3. Ví dụ cần sửa: `right_hip` của người #1 trong `000000189365.jpg` có `v = 1` nhưng tọa độ x = -13 nằm ngoài ảnh. Nếu giữ như vậy, mô hình học tọa độ khớp sai như một nhãn dương; đặt `outside` sẽ loại điểm đó khỏi loss. Điểm này vẫn cần sửa trên CVAT.
 
 ## 8. Khó khăn và lỗi kỹ thuật
 
-Các vấn đề đang được script tự kiểm phát hiện: 4 điểm người nằm ngoài biên ảnh nhưng có `v > 0`; 6 skeleton trong ảnh `000000572411.jpg` có độ cao dưới 60 px. Task mặt hiện đủ 8 skeleton. Cần kiểm tra các cảnh báo trên CVAT, sửa các điểm ngoài ảnh, xuất lại, rồi chạy kiểm tra lần cuối. Khó khăn/lỗi kỹ thuật khác: [bổ sung]
+Các vấn đề đang được script tự kiểm phát hiện: 3 điểm người nằm ngoài biên ảnh nhưng có `v > 0`; 6 skeleton trong ảnh `000000572411.jpg` có độ cao dưới 60 px. Task mặt hiện đủ 8 skeleton. Cần kiểm tra các cảnh báo trên CVAT, sửa các điểm ngoài ảnh, xuất lại, rồi chạy kiểm tra lần cuối. Khó khăn/lỗi kỹ thuật khác: [bổ sung]
 
 ## Bonus
 
